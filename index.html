@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHROT | Punk Rock Band</title>
+  <!-- Fontawesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Adobe fonts - Octynaz -->
+  <link rel="stylesheet" href="https://use.typekit.net/fvz3dkx.css">
+  <!-- Google Fonts: Inter dla tekstu i Oswald dla agresywnych, punkowych nagłówków -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Oswald:wght@500;700&display=swap"
+    rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            punk: ['Octynaz', 'sans-serif'],
+            punkLight: ['Oswald', 'sans-serif'],
+          },
+          colors: {
+            punkRed: '#dc2626',      /* Główna czerwień */
+            punkRedHover: '#b91c1c', /* Ciemniejsza czerwień */
+            darkBg: '#0a0a0a',       /* Głęboka czerń */
+            cardBg: '#141414',       /* Jaśniejsza czerń dla kart */
+          },
+          boxShadow: {
+            brutal: '6px 6px 0px 0px #dc2626',
+            brutalSm: '4px 4px 0px 0px #dc2626',
+            brutalWhite: '5px 5px 0px 0px #ffffff',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Punkowe tekstury i efekty */
+    .punk-border {
+      border: 3px solid #ffffff;
+    }
+
+    .punk-border-red {
+      border: 3px solid #dc2626;
+    }
+
+    /* Efekt zakłóceń (subtelny) */
+    .glitch-hover:hover {
+      text-shadow: 2px 2px 0px #dc2626, -2px -2px 0px #00ffff;
+    }
+
+    .main-logo-header {
+      height: 50px;
+      width: 120px;
+      object-fit: cover;
+    }
+
+    .main-logo {
+      width: 400px;
+      margin-bottom: 35px;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-darkBg text-gray-100 font-sans selection:bg-punkRed selection:text-white min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- MENU / HEADER -->
+  <header
+    class="fixed top-0 left-0 w-full z-50 bg-darkBg/95 backdrop-blur-md border-b-2 border-punkRed py-4 px-6 md:px-12 transition-all duration-300">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Logo tekstowe / Nazwa bandu -->
+      <a href="#hero"
+        class="font-punk text-3xl md:text-4xl tracking-wider text-white hover:text-punkRed transition-colors flex items-center gap-2">
+        <img class="main-logo-header" src="assets/logo-shrot.png" alt="Logo zespołu Shrot">
+      </a>
+
+      <!-- Menu Desktopowe -->
+      <nav class="hidden md:flex items-center gap-8 font-punk text-lg uppercase tracking-wide">
+        <a href="#o-nas"
+          class="hover:text-punkRed transition-colors relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-punkRed after:left-0 after:-bottom-1 hover:after:w-full after:transition-all">O
+          nas</a>
+        <a href="#streaming"
+          class="hover:text-punkRed transition-colors relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-punkRed after:left-0 after:-bottom-1 hover:after:w-full after:transition-all">Słuchaj
+          nas</a>
+        <a href="#koncerty"
+          class="hover:text-punkRed transition-colors relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-punkRed after:left-0 after:-bottom-1 hover:after:w-full after:transition-all">Koncerty</a>
+      </nav>
+
+      <!-- Przycisk boczny / Call to Action -->
+      <div class="hidden md:block">
+        <a href="#koncerty"
+          class="bg-punkRed text-white font-punk uppercase px-5 py-2 hover:bg-white hover:text-darkBg transition-all duration-300 shadow-brutalSm hover:shadow-none translate-y-[-2px] hover:translate-y-0 inline-block">
+          Kontakt
+        </a>
+      </div>
+
+      <!-- Hamburger menu dla mobile -->
+      <button id="menu-btn" class="md:hidden flex flex-col justify-between w-6 h-5 focus:outline-none"
+        aria-label="Otwórz menu">
+        <span class="w-full h-1 bg-white rounded transition-all duration-300 origin-left" id="line1"></span>
+        <span class="w-full h-1 bg-white rounded transition-all duration-300" id="line2"></span>
+        <span class="w-full h-1 bg-white rounded transition-all duration-300 origin-left" id="line3"></span>
+      </button>
+    </div>
+
+    <!-- Menu Mobile Overlay -->
+    <div id="mobile-menu"
+      class="hidden md:hidden absolute top-full left-0 w-full bg-darkBg border-b border-punkRed py-6 px-6 flex flex-col gap-6 font-punk text-xl uppercase tracking-wider text-center transition-all duration-300">
+      <a href="#o-nas" class="mobile-link py-2 hover:text-punkRed transition-colors">O nas</a>
+      <a href="#streaming" class="mobile-link py-2 hover:text-punkRed transition-colors">Słuchaj nas</a>
+      <a href="#koncerty" class="mobile-link py-2 hover:text-punkRed transition-colors">Koncerty</a>
+      <a href="#koncerty" class="mobile-link bg-punkRed text-white py-3 mt-2 shadow-brutalSm">Kontakt</a>
+    </div>
+  </header>
+
+  <!-- HERO BANNER -->
+  <section id="hero" class="relative min-h-screen pt-24 flex items-center justify-center bg-black overflow-hidden">
+    <!-- Tło z grafiką zespołu - shrot-banner.webp -->
+    <div class="absolute inset-0 z-0">
+      <img src="assets/shrot-banner.webp" alt="Zespół SHROT w sali prób"
+        class="w-full h-full object-cover opacity-40 md:opacity-50 filter grayscale contrast-125"
+        onerror="this.src='https://placehold.co/1920x1080/121212/ffffff?text=SHROT+PUNK+BAND'">
+      <!-- Agresywny gradient maskujący dół i górę -->
+      <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-darkBg/90"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-darkBg/80 via-transparent to-darkBg/80"></div>
+    </div>
+
+    <!-- Zawartość Hero -->
+    <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 text-center py-12 flex flex-col items-center">
+      <!-- Tag nad nagłówkiem -->
+      <span
+        class="bg-punkRed text-white text-xs md:text-sm font-punk uppercase tracking-widest px-4 py-1.5 mb-6 rotate-[-2deg] shadow-brutalSm">
+        Nowy Materiał Nadchodzi!
+      </span>
+
+      <!-- Wielki tytuł -->
+      <!-- <h1 -->
+      <!--   class="font-punk text-7xl sm:text-8xl md:text-9xl font-black tracking-tight text-white uppercase select-none mb-4"> -->
+      <!--   SH<span class="text-punkRed">R</span>OT -->
+      <!-- </h1> -->
+
+      <img class="main-logo" src="assets/logo-shrot-without-margin.png" alt="Logo zespołu Shrot">
+
+      <p class="font-punk text-xl sm:text-2xl md:text-3xl text-gray-300 uppercase tracking-widest max-w-2xl mb-8">
+        Brud, hałas i czysta punkowa energia prosto z garażu.
+      </p>
+
+      <!-- Przyciski CTA -->
+      <div class="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+        <a href="#streaming"
+          class="bg-white text-darkBg hover:bg-punkRed hover:text-white font-punk text-lg uppercase tracking-wider px-8 py-4 transition-all duration-300 shadow-brutal shadow-white hover:shadow-brutal translate-y-[-4px] hover:translate-y-0 text-center">
+          Słuchaj Muzyki
+        </a>
+        <a href="#koncerty"
+          class="border-2 border-white text-white hover:bg-white hover:text-darkBg font-punk text-lg uppercase tracking-wider px-8 py-4 transition-all duration-300 text-center">
+          Zobacz Gigi
+        </a>
+      </div>
+    </div>
+
+    <!-- Strzałka w dół scrollująca -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+      <a href="#o-nas" aria-label="Przewiń w dół" class="text-white hover:text-punkRed transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+          class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- SECTION: O NAS -->
+  <section id="o-nas" class="py-24 px-6 md:px-12 bg-darkBg relative border-t-2 border-punkRed">
+    <!-- Element ozdobny "Zine" w tle -->
+    <div
+      class="absolute right-4 top-10 text-9xl font-punk text-white/[0.02] uppercase tracking-tighter select-none hidden lg:block rotate-12">
+      PUNK ROCK OR DIE
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+        <!-- Tekst o zespole (7 kolumn) -->
+        <div class="lg:col-span-7 space-y-6">
+          <div
+            class="inline-block bg-punkRed text-white font-punk uppercase text-sm tracking-wider px-3 py-1 mb-2 transform -rotate-1">
+            Kim jesteśmy?
+          </div>
+          <h2
+            class="font-punk text-4xl sm:text-5xl md:text-6xl uppercase font-extrabold tracking-tight text-white mb-6">
+            KILKA SŁÓW <br class="hidden sm:inline"><span class="text-punkRed">O SHRoTcie</span>
+          </h2>
+
+          <p class="text-gray-300 text-lg leading-relaxed">
+            ShROT powstał w 2005 roku — jako zespół, który zawsze był tragicznym wyborem. Tym
+            kochanym, ale odkładanym „na potem”. Przez prawie 20 lat zakopani w warszawskim
+            podziemiu robiliśmy swoje: bez planu B, bez kalkulacji, bez kompromisów.
+            ShROT dojrzewał, koncertował, zbierał historie i brzmienia, żeby w końcu wydać na świat dwie
+            płyty z pogranicza alternative, rocka i punka.</p>
+
+          <p class="text-gray-400 text-base leading-relaxed">
+            Sami piszemy teksty, sami komponujemy, bo nikt nie obieca Ci tyle ile możesz sam popsuć.
+            ShROT to zderzenie pięciu różnych charakterów, temperamentów i pomysłów na hałas.
+            Konfrontujemy się i wykuwamy z tego nasze brzmienie.
+            Kochamy scenę, ludzi pod nią i wszystko, co się dzieje pomiędzy. Koncert to wspólna jazda i
+            energia. Dla nas liczy się dobra zabawa, autentyczność i chaos kontrolowany. Reszta to detale.
+          </p>
+
+          <!-- Lista atrybutów zespołu w punkowym stylu -->
+          <div class="grid grid-cols-2 gap-4 pt-6 font-punk uppercase tracking-wider">
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 bg-punkRed transform rotate-45 inline-block"></span>
+              <span class="text-white text-lg">100% DIY SPIRIT</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 bg-punkRed transform rotate-45 inline-block"></span>
+              <span class="text-white text-lg">SZYBKIE TEMPA</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 bg-punkRed transform rotate-45 inline-block"></span>
+              <span class="text-white text-lg">GARAŻOWE BRZMIENIE</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 bg-punkRed transform rotate-45 inline-block"></span>
+              <span class="text-white text-lg">ZAKAZ NUDY</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Druga grafika / cytat w klimacie zine (5 kolumn) -->
+        <div class="lg:col-span-5 w-full">
+          <div class="bg-cardBg p-8 border-2 border-white shadow-brutal rotate-[1.5deg] relative">
+            <!-- Śruba/Wypustka ozdobna -->
+            <div class="absolute -top-4 -left-4 text-4xl select-none">⚡</div>
+            <div class="absolute -bottom-4 -right-4 text-4xl select-none">⚡</div>
+
+            <blockquote class="space-y-4">
+              <p class="font-punkLight text-2xl sm:text-3xl text-white uppercase italic leading-tight">
+                "Sami piszemy teksty, sami komponujemy, bo nikt nie obieca Ci tyle ile możesz sam popsuć."
+              </p>
+              <cite class="block text-punkRed font-punkLight uppercase text-right tracking-wider text-lg">— SHROT</cite>
+            </blockquote>
+
+            <div
+              class="border-t border-gray-700 mt-6 pt-4 flex justify-between items-center text-xs text-gray-400 font-mono">
+              <span>S.H.R.O.T.</span>
+              <span>#NO_RULES</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: STREAMING -->
+  <section id="streaming" class="py-24 px-6 md:px-12 bg-cardBg relative border-t-2 border-punkRed overflow-hidden">
+    <!-- Dynamiczne pasy tła -->
+    <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+      <div class="absolute top-1/4 -left-10 w-full h-12 bg-white rotate-[-5deg]"></div>
+      <div class="absolute top-2/3 -right-10 w-full h-12 bg-punkRed rotate-[3deg]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto relative z-10 text-center">
+      <div class="inline-block bg-white text-darkBg font-punk uppercase text-sm tracking-wider px-3 py-1 mb-4">
+        Hałas On Demand
+      </div>
+      <h2 class="font-punk text-4xl sm:text-5xl md:text-6xl uppercase font-black tracking-tight text-white mb-6">
+        SŁUCHAJ NAS <span class="text-punkRed">W SIECI</span>
+      </h2>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-12">
+        Odpal swój ulubiony odtwarzacz i daj czadu. Jesteśmy dostępni na wszystkich najważniejszych platformach
+        streamingowych. Kliknij ikonę i dodaj nas do playlisty!
+      </p>
+
+      <!-- Boxy platform streamingowych -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+
+        <!-- APPLE MUSIC -->
+        <a href="https://music.apple.com/pl/artist/shrot/1801226765" target="_blank" rel="noopener noreferrer"
+          class="group bg-darkBg border-2 border-white p-8 hover:bg-punkRed hover:border-punkRed transition-all duration-300 shadow-brutal hover:shadow-brutalWhite translate-y-[-4px] hover:translate-y-0 flex flex-col items-center justify-center min-h-[220px]">
+          <!-- Apple Music SVG Icon -->
+          <div class="text-[#D10E1D] group-hover:text-white transition-colors duration-300 mb-6 text-6xl">
+            <i class="fa-brands fa-itunes-note"></i>
+            <!-- <svg class="w-16 h-16 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> -->
+            <!--   <path -->
+            <!--     d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm4.276 15.717c-.383.333-1.002.404-1.348.16l-3.27-2.31c-.135-.095-.218-.248-.218-.41v-3.865c0-.498.404-.902.902-.902.498 0 .902.404.902.902v3.18l2.79 1.972c.382.27.426.84.162 1.22l-.12.153zM12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2z" -->
+            <!--     class="hidden" /> -->
+            <!--   <!-- Better Apple Music Note Icon -->
+            <!--   <path -->
+            <!--     d="M12.2 24a11.8 11.8 0 0 1-8.35-3.45A11.8 11.8 0 0 1 .4 12.2 11.8 11.8 0 0 1 3.85 3.85 11.8 11.8 0 0 1 12.2.4a11.8 11.8 0 0 1 8.35 3.45A11.8 11.8 0 0 1 24 12.2a11.8 11.8 0 0 1-3.45 8.35A11.8 11.8 0 0 1 12.2 24zM18.8 8.85s0-.05-.05-.1v-.05c-.05-.05-.05-.1-.1-.1l-.1-.05s-.05 0-.05-.05l-.1-.05H11.3a.85.85 0 0 0-.85.85v6.52a2.95 2.95 0 0 0-1.6-.47 3 3 0 1 0 3 3v-6.05h6.1V14a2.95 2.95 0 0 0-1.6-.47 3 3 0 1 0 3 3v-7.3a.85.85 0 0 0-.35-.38z" /> -->
+            <!-- </svg> -->
+          </div>
+          <span class="font-punk text-2xl uppercase tracking-wider text-white">Apple Music</span>
+          <span class="text-xs text-gray-400 group-hover:text-gray-200 uppercase mt-2 font-mono">Przejdź do
+            profilu</span>
+        </a>
+
+        <!-- TIDAL -->
+        <a href="https://tidal.com/artist/39940006" target="_blank" rel="noopener noreferrer"
+          class="group bg-darkBg border-2 border-white p-8 hover:bg-punkRed hover:border-punkRed transition-all duration-300 shadow-brutal hover:shadow-brutalWhite translate-y-[-4px] hover:translate-y-0 flex flex-col items-center justify-center min-h-[220px]">
+          <!-- Tidal SVG Icon -->
+          <div class="text-white group-hover:text-white transition-colors duration-300 mb-6 text-6xl">
+            <i class="fa-brands fa-tidal"></i>
+            <!-- <svg class="w-16 h-16 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> -->
+            <!--   <path -->
+            <!--     d="M12.012 3.612l3.6 3.6-3.6 3.6-3.6-3.6 3.6-3.6zm-4.2 4.2l3.6 3.6-3.6 3.6-3.6-3.6 3.6-3.6zm8.4 0l3.6 3.6-3.6 3.6-3.6-3.6 3.6-3.6zm-12.6 4.2l3.6 3.6-3.6 3.6-3.6-3.6 3.6-3.6zm8.4 0l3.6 3.6-3.6 3.6-3.6-3.6 3.6-3.6zm4.2 4.2l3.6 3.6-3.6 3.6-3.6-3.6 3.6-3.6z" /> -->
+            <!-- </svg> -->
+          </div>
+          <span class="font-punk text-2xl uppercase tracking-wider text-white">Tidal</span>
+          <span class="text-xs text-gray-400 group-hover:text-gray-200 uppercase mt-2 font-mono">Przejdź do
+            profilu</span>
+        </a>
+
+        <!-- SPOTIFY -->
+        <a href="https://open.spotify.com/artist/0ZGh7ss59s8ZhJ0PMw0xlZ" target="_blank" rel="noopener noreferrer"
+          class="group bg-darkBg border-2 border-white p-8 hover:bg-punkRed hover:border-punkRed transition-all duration-300 shadow-brutal hover:shadow-brutalWhite translate-y-[-4px] hover:translate-y-0 flex flex-col items-center justify-center min-h-[220px]">
+          <!-- Spotify SVG Icon -->
+          <div class="text-[#1DB954] group-hover:text-white transition-colors duration-300 mb-6 text-6xl">
+            <i class="fa-brands fa-spotify"></i>
+            <!-- <svg class="w-16 h-16 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> -->
+            <!--   <path -->
+            <!--     d="M12 0C5.373 0 0 5.372 0 12s5.373 12 12 12 12-5.372 12-12S18.627 0 12 0zm5.496 17.306c-.22.36-.683.475-1.042.256-2.844-1.738-6.423-2.132-10.64-1.17-.41.093-.815-.164-.908-.574-.093-.41.163-.816.574-.908 4.623-1.056 8.57-.61 11.756 1.336.358.218.474.68.26 1.04zm1.47-3.26c-.277.45-.867.6-1.317.323-3.253-2-8.213-2.582-12.062-1.413-.506.153-1.04-.136-1.194-.643-.153-.507.137-1.04.644-1.194 4.407-1.338 9.87-.69 13.6 1.603.45.277.6.867.323 1.317zm.126-3.39c-3.9-2.316-10.323-2.53-14.08-1.39-.6.18-1.24-.167-1.42-.767-.18-.6.168-1.24.767-1.42 4.316-1.31 11.413-1.056 15.908 1.61.54.32.716 1.014.394 1.555-.32.54-1.014.717-1.555.394z" /> -->
+            <!-- </svg> -->
+          </div>
+          <span class="font-punk text-2xl uppercase tracking-wider text-white">Spotify</span>
+          <span class="text-xs text-gray-400 group-hover:text-gray-200 uppercase mt-2 font-mono">Przejdź do
+            profilu</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: NADCHODZĄCE WYDARZENIA -->
+  <section id="koncerty" class="py-24 px-6 md:px-12 bg-darkBg relative border-t-2 border-punkRed">
+    <div class="max-w-7xl mx-auto">
+
+      <!-- Nagłówek i opis sekcji -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+        <div>
+          <div class="inline-block bg-punkRed text-white font-punk uppercase text-sm tracking-wider px-3 py-1 mb-2">
+            Rozpoczynamy Pogo
+          </div>
+          <h2 class="font-punk text-4xl sm:text-5xl md:text-6xl uppercase font-black tracking-tight text-white">
+            NADCHODZĄCE <span class="text-punkRed">WYDARZENIA</span>
+          </h2>
+        </div>
+        <p class="text-gray-400 text-lg max-w-md">
+          Chcesz zobaczyć, jak trzęsie się scena? Wpadaj na najbliższe koncerty! Poniżej znajdziesz aktualny rozkład
+          jazdy.
+        </p>
+      </div>
+
+      <!-- KONTENER GIGÓW (FLEX/GRID) -->
+      <!-- Tutaj możesz bez problemu duplikować lub usuwać całe bloki <div class="gig-card..."> -->
+      <div id="gigs-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- DYNAMIC GIG CARDS -->
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer
+    class="bg-black text-gray-400 py-16 px-6 md:px-12 border-t-4 border-punkRed relative overflow-hidden items-center">
+
+    <!-- Przejście tła na mroczną szarość -->
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+
+      <!-- LOGO I SOCIAL MEDIA (5 kolumn) -->
+      <div class="md:col-span-5 flex flex-col items-center md:items-start space-y-6">
+
+        <!-- Logo zespołu w formie naklejki punkowej -->
+        <div
+          class="relative group bg-white p-3 rotate-[-3deg] shadow-brutal border-2 border-black max-w-[280px] hover:rotate-[1deg] transition-all duration-300">
+          <img src="assets/logo-shrot.png" alt="SHROT Logo" class="w-full h-auto"
+            onerror="this.src='https://placehold.co/400x150/ffffff/dc2626?text=SHROT'">
+          <div
+            class="absolute -top-3 -right-3 bg-punkRed text-white font-punk text-xs px-2 py-0.5 uppercase tracking-widest rotate-[12deg]">
+            OFFICIAL
+          </div>
+        </div>
+
+        <p class="text-center md:text-left text-sm text-gray-400 max-w-sm">
+          Głośny i niezależny punk rock z małą niespodzianką. 100% energii, 0% kompromisów. Do zobaczenia pod sceną i na
+          streamingach!
+        </p>
+
+        <!-- LINK DO INSTAGRAMA Z IKONKĄ -->
+        <div class="flex flex-col items-center md:items-start gap-2">
+          <span class="font-punk uppercase text-xs tracking-widest text-gray-500">Śledź nasz chaos:</span>
+          <a href="https://www.instagram.com/shrot_official/" target="_blank" rel="noopener noreferrer"
+            class="group flex items-center gap-3 bg-cardBg border border-gray-800 hover:border-punkRed py-3 px-5 rounded transition-all duration-300 hover:bg-punkRed hover:text-white text-white shadow-brutalSm hover:shadow-none translate-y-[-2px] hover:translate-y-0">
+            <!-- Instagram SVG Icon -->
+            <svg class="w-6 h-6 fill-current text-white group-hover:scale-110 transition-transform" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+            </svg>
+            <span class="font-punk text-lg tracking-wider uppercase">Instagram @shrot</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- MENU NAWIGACYJNE LINKI W STOPCE (3 kolumny) -->
+      <div class="md:col-span-3 flex flex-col items-center md:items-start space-y-4">
+        <h4
+          class="font-punk text-xl text-white uppercase tracking-wider border-b-2 border-punkRed pb-2 w-full text-center md:text-left">
+          Szybkie Linki
+        </h4>
+        <ul class="space-y-2 text-center md:text-left font-punk text-lg uppercase tracking-wider">
+          <li><a href="#hero" class="hover:text-punkRed transition-colors">Początek</a></li>
+          <li><a href="#o-nas" class="hover:text-punkRed transition-colors">O nas</a></li>
+          <li><a href="#streaming" class="hover:text-punkRed transition-colors">Słuchaj</a></li>
+          <li><a href="#koncerty" class="hover:text-punkRed transition-colors">Koncerty</a></li>
+        </ul>
+      </div>
+
+      <!-- NOTA PRAWNA / STOPKA METADANYCH (4 kolumny) -->
+      <div class="md:col-span-4 flex flex-col items-center md:items-start justify-between h-full space-y-6">
+        <div class="w-full text-center md:text-left">
+          <h4 class="font-punk text-xl text-white uppercase tracking-wider border-b-2 border-punkRed pb-2 w-full mb-4">
+            Kontakt & Booking
+          </h4>
+          <p class="text-sm font-mono text-gray-400">
+            Chcesz nas zaprosić na koncert? Pisz śmiało:<br>
+            <a href="mailto:booking@shrot.pl"
+              class="text-white hover:text-punkRed transition-all font-bold block mt-2 text-base">booking@shrot.pl</a>
+          </p>
+        </div>
+
+        <div class="text-xs text-gray-600 font-mono text-center md:text-left w-full pt-4 border-t border-gray-900">
+          <p>&copy; 2026 SHROT. Wszelkie prawa zastrzeżone.</p>
+          <p class="mt-1">Dumnie stworzone w klimacie DIY.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Powiadomienie o skopiowaniu (ukryte) -->
+    <div id="toast"
+      class="fixed bottom-6 right-6 bg-green-600 text-white font-punk uppercase py-3 px-6 shadow-brutal z-50 transform translate-y-20 opacity-0 transition-all duration-300">
+      Skopiowano do schowka! ⚡
+    </div>
+  </footer>
+
+  <!-- LOGIKA JAVASCRIPT -->
+  <script>
+    // Hamburger Menu Mobile
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const line1 = document.getElementById('line1');
+    const line2 = document.getElementById('line2');
+    const line3 = document.getElementById('line3');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      // Animacja hamburgera do krzyżyka
+      line1.classList.toggle('rotate-45');
+      line1.classList.toggle('translate-y-2');
+      line2.classList.toggle('opacity-0');
+      line3.classList.toggle('-rotate-45');
+      line3.classList.toggle('-translate-y-2');
+    });
+
+    // Zamknięcie menu mobilnego po kliknięciu linku
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        line1.classList.remove('rotate-45', 'translate-y-2');
+        line2.classList.remove('opacity-0');
+        line3.classList.remove('-rotate-45', '-translate-y-2');
+      });
+    });
+
+    // Obsługa Generatora Kodów Wydarzeń
+    const toggleBtn = document.getElementById('toggle-generator');
+    const generatorBox = document.getElementById('generator-form-box');
+    const btnGenerate = document.getElementById('btn-generate');
+    const codeOutputContainer = document.getElementById('code-output-container');
+    const htmlCodeOutput = document.getElementById('html-code-output');
+    const btnCopy = document.getElementById('btn-copy');
+    const toast = document.getElementById('toast');
+
+    // Pokazywanie/ukrywanie kreatora
+    toggleBtn.addEventListener('click', () => {
+      generatorBox.classList.toggle('hidden');
+      if (generatorBox.classList.contains('hidden')) {
+        toggleBtn.textContent = 'Otwórz Kreator';
+      } else {
+        toggleBtn.textContent = 'Zamknij Kreator';
+      }
+    });
+
+    // Generowanie kodu HTML na podstawie pól
+    btnGenerate.addEventListener('click', () => {
+      const gDate = document.getElementById('g-date').value || '14.07';
+      const gVenue = document.getElementById('g-venue').value || 'Klub Od Nowa';
+      const gCity = document.getElementById('g-city').value || 'Toruń, PL';
+      const gTitle = document.getElementById('g-title').value || 'SHROT Garaż Fest vol. 4';
+      const gDesc = document.getElementById('g-desc').value || 'Krótki, mięsisty opis koncertu...';
+      const gPrice = document.getElementById('g-price').value || '40 PLN';
+      const gLink = document.getElementById('g-link').value || '#';
+
+      // Generowanie biletowej sekcji (jeśli darmowe to ładna informacja)
+      let ticketSection = '';
+      if (gPrice.toLowerCase().includes('wolny') || gPrice.toLowerCase().includes('darmow') || gPrice.toLowerCase() === '0') {
+        ticketSection = `
+                        <span class="text-xs text-green-500 uppercase font-mono font-semibold">Wstęp Wolny</span>
+                        <span class="text-xs text-gray-500 font-punk uppercase">Bez biletów</span>`;
+      } else {
+        ticketSection = `
+                        <span class="text-xs text-gray-500 uppercase font-mono">Bilety: ${gPrice}</span>
+                        <a href="${gLink}" class="bg-punkRed hover:bg-white text-white hover:text-darkBg font-punk uppercase text-xs py-2 px-4 transition-all tracking-wider">
+                            Kup bilet
+                        </a>`;
+      }
+
+      // Szablon kodu HTML
+      const generatedHTML = `<!-- GIG CARD: ${gDate} ${gCity} -->
+<div class="gig-card bg-cardBg border-2 border-white p-6 flex flex-col justify-between transition-all duration-300 hover:border-punkRed shadow-brutal hover:shadow-brutalWhite group">
+    <div>
+        <!-- Data i Miejsce -->
+        <div class="flex justify-between items-start mb-4 border-b border-gray-800 pb-3">
+            <div class="font-punk text-3xl text-punkRed group-hover:text-white transition-colors">
+                ${gDate}
+            </div>
+            <div class="text-right">
+                <span class="block font-punk text-lg text-white uppercase">${gVenue}</span>
+                <span class="text-xs text-gray-400 uppercase tracking-widest font-mono">${gCity}</span>
+            </div>
+        </div>
+        <!-- Nazwa Eventu -->
+        <h3 class="font-punk text-2xl uppercase text-white mb-2 group-hover:text-punkRed transition-colors">
+            ${gTitle}
+        </h3>
+        <!-- Krótki opis -->
+        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+            ${gDesc}
+        </p>
+    </div>
+    <!-- Dolny przycisk / status -->
+    <div class="flex justify-between items-center pt-4 border-t border-gray-800 mt-auto">
+        ${ticketSection}
+    </div>
+</div>`;
+
+      // Wypełnienie pola wyjściowego
+      htmlCodeOutput.textContent = generatedHTML;
+      codeOutputContainer.classList.remove('hidden');
+    });
+
+    // Bezpieczne kopiowanie do schowka wspierające iFrame'y i ograniczenia przeglądarek
+    btnCopy.addEventListener('click', () => {
+      const codeText = htmlCodeOutput.textContent;
+
+      // Rezerwowe rozwiązanie dla iFrame na wypadek blokad navigator.clipboard
+      const tempTextarea = document.createElement('textarea');
+      tempTextarea.value = codeText;
+      tempTextarea.style.position = 'absolute';
+      tempTextarea.style.left = '-9999px';
+      document.body.appendChild(tempTextarea);
+      tempTextarea.select();
+
+      try {
+        document.execCommand('copy');
+        showToast();
+      } catch (err) {
+        console.error('Błąd podczas kopiowania: ', err);
+      }
+
+      document.body.removeChild(tempTextarea);
+    });
+
+    // Funkcja wyświetlająca powiadomienie
+    function showToast() {
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+  </script>
+
+  <!-- Dynamiczne uzupelnianie gigow -->
+  <script src="gigs.js"></script>
+
+</body>
+
+</html>
