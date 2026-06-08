@@ -1,7 +1,9 @@
 let gigsContainer = document.querySelector('#gigs-container');
 
+console.log('gig.js dziala');
+
 async function loadGigs() {
-  const index = await fetch('./gigs/index.json').then(r => r.json());
+  const index = await fetch('./scan.php').then(r => r.json());
 
   console.log(index);
 
@@ -22,7 +24,7 @@ async function loadGigs() {
   }
 
   const gigs = await Promise.all(
-    index.map(gig => fetch(`./gigs/${gig}.json`).then(r => r.json()))
+    index.map(gig => fetch(`./gigs/${gig}`).then(r => r.json()))
   );
 
   console.log(gigs);
