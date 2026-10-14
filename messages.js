@@ -18,6 +18,6 @@ if (flashMessage.type == "success") {
   messageContent.innerHTML = flashMessage.text;
 }
 
-const turnOffMessage = setTimeout(function() {
+const turnOffMessage = setTimeout(function () {
   messageContent.style.display = "none";
-}, 2000);
+}, 4000);

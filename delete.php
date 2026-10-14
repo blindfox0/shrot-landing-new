@@ -7,16 +7,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit();
 }
 
-$title = $_GET['title'];
+$date = $_GET['date'];
 
-$filepath = "./gigs/$title.json";
+$filepath = "./gigs/$date.json";
 
 if (!is_readable($filepath)) {
     throw new Exception('Plik nie może być usunięty, bo prawdopodobnie nie istnieje');
 } else {
     unlink($filepath);
     if (!is_readable($filepath)) {
-        throw new Exception('Plik został usunięty prawidłowo');
+        echo('Plik został usunięty prawidłowo');
+        $_SESSION['message'] = "Wydarzenie o dacie $date zostało pomyślnie usunięte";
+        $_SESSION['messageType'] = "success";
+        header('Location: addNewGigForm.php');
     } else {
         throw new Exception('Plik nie został usunięty, coś poszło nie tak, spróbuj ponownie za chwilę');
     }

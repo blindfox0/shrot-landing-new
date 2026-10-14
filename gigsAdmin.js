@@ -18,7 +18,7 @@ async function loadGigs() {
     .map(gig => `
     <div class="gig-card p-3 border rounded relative">
       <div class="gig-card-control absolute right-3 top-3">
-        <a href="./delete.php?title=${gig.Title}" class="bg-punkRed hover:bg-punkRedHover px-3 py-1 text-white">Usuń</a>
+        <a href="./delete.php?date=${gig.Date}" class="bg-punkRed hover:bg-punkRedHover px-3 py-1 text-white">Usuń</a>
       </div>
       <div class="gig-card-content">
         <div class="gig-card-item-header text-2xl">${gig.Title}</div>
