@@ -10,7 +10,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 }
 
 $password = 'TwojaStaraZapierdala';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['password']) && $_POST['password'] === $password) {
         $_SESSION['loggedin'] = true;
