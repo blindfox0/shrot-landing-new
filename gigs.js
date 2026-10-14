@@ -29,6 +29,8 @@ async function loadGigs() {
 
   console.log(gigs);
 
+  gigs.map(gig => console.log(gig));
+
   let gigsHTMLParsed = gigs
     .map(gig => `
       <div class="gig-card bg-cardBg border-1 border-white p-6 flex flex-col justify-between transition-all duration-300 hover:border-punkRed shadow-brutal hover:shadow-brutalWhite group">
@@ -61,7 +63,9 @@ async function loadGigs() {
           </a>
         </div>
       </div>
-    `);
+    `).join("");
+
+  console.log(gigsHTMLParsed);
 
   gigsContainer.innerHTML = gigsHTMLParsed;
 }
